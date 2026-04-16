@@ -180,6 +180,23 @@
             box-shadow: 0 8px 25px rgba(0,0,0,0.2);
         }
 
+        .btn-tmi {
+            background: #007AFF;
+        }
+
+        .btn-tmi:hover {
+            background: #005ecb !important;
+        }
+
+        body.dark .btn-tmi {
+            background: #007AFF !important;
+            color: white !important;
+        }
+
+        body.dark .btn-tmi:hover {
+            background: #005ecb !important;
+        }
+
         /* 푸터 */
         footer {
             position: fixed;
@@ -213,7 +230,10 @@
                 <span class="badge">Web Developer</span>
                 <h1>안녕하세요, <br><strong>노우영</strong>입니다.</h1>
                 <p>웹 개발 쪽에 관심을 가지고 공부하고 있습니다.</p>
-                <a href="./index2.html" class="btn">더 알아보기</a>
+                <div style="display:flex; gap:1rem; justify-content:center; flex-wrap:wrap; margin-top:2rem;">
+                    <a href="./index2.html" class="btn" style="margin-top:0;">더 알아보기</a>
+                    <a href="./tmi.html" class="btn btn-tmi" style="margin-top:0;">TMI 👀</a>
+                </div>
             </div>
         </section>
     </main>
