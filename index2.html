@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>노우영</title>
+    <title>노우영 - TMI</title>
     <style>
         * {
             margin: 0;
@@ -16,59 +16,132 @@
             font-family: 'Apple SD Gothic Neo', 'Pretendard', sans-serif;
             line-height: 1.6;
             color: #333;
-            background-color: #f9f9fb;
-            transition: background-color 0.3s ease, color 0.3s ease;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            transition: background 0.3s ease, color 0.3s ease;
         }
 
-        /* ── 다크모드 ── */
-        body.dark {
-            color: #e5e5e7;
-            background-color: #121212;
-        }
-
-        body.dark header {
-            background: rgba(24, 24, 28, 0.92);
-            border-bottom-color: #2c2c2e;
-        }
-
+        body.dark { color: #e5e5e7; background: linear-gradient(135deg, #1c1c1e 0%, #2c2c2e 100%); }
+        body.dark header { background: rgba(24,24,28,0.92); border-bottom-color: #2c2c2e; }
         body.dark .logo { color: #e5e5e7; }
-
-        body.dark .page-title {
-            background: linear-gradient(135deg, #1c1c1e 0%, #2c2c2e 100%);
-        }
-
+        body.dark .page-title { background: linear-gradient(135deg, #1c1c1e 0%, #2c2c2e 100%); }
+        body.dark .tmi-hero { background: linear-gradient(135deg, #1c1c1e 0%, #2c2c2e 100%); }
         body.dark .page-title p { color: #aaa; }
-
-        body.dark .skill-card {
-            background: #1e1e1e;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.3);
-        }
-
-        body.dark .skill-info h3 { color: #e5e5e7; }
-        body.dark .skill-info p  { color: #888; }
-        body.dark .level-bar-wrap { background: #333; }
-
-        body.dark .divider { border-top-color: #2c2c2e; }
-
-        body.dark .btn {
-            background: #e5e5e7;
-            color: #111;
-        }
-
+        body.dark .tmi-card { background: #1e1e1e; box-shadow: 0 4px 30px rgba(0,0,0,0.3); }
+        body.dark .tmi-card-heading { color: #e5e5e7; border-bottom-color: #2c2c2e; }
+        body.dark .tmi-row { border-bottom-color: #2a2a2a; }
+        body.dark .tmi-row-label { color: #666; }
+        body.dark .tmi-emoji { background: #2a2a2a; }
+        body.dark .tmi-item { background: #2a3a50; color: #5aadff; }
+        body.dark .tmi-card-label { color: #aaa; }
+        body.dark .btn { background: #e5e5e7; color: #111; }
         body.dark .btn:hover { background: #fff; }
+        body.dark footer { color: #555; border-top-color: #2c2c2e; }
+        body.dark .dark-toggle { border-color: #444; background: #1c1c1e; }
+        body.dark .section-title { color: #e5e5e7; }
 
-        body.dark footer {
-            color: #555;
-            border-top-color: #2c2c2e;
+        /* 로그인 버튼 */
+        .btn-login-header {
+            padding: 7px 16px; border-radius: 10px; font-size: 0.85rem;
+            font-weight: 600; cursor: pointer; border: 1.5px solid #007AFF;
+            color: #007AFF; background: transparent; transition: all 0.2s;
+        }
+        .btn-login-header:hover { background: #007AFF; color: white; }
+
+        .btn-logout-header {
+            padding: 7px 16px; border-radius: 10px; font-size: 0.85rem;
+            font-weight: 600; cursor: pointer; border: 1.5px solid #ddd;
+            color: #666; background: transparent; transition: all 0.2s;
+        }
+        .btn-logout-header:hover { background: #f5f5f5; }
+
+        .header-user-avatar {
+            width: 30px; height: 30px; border-radius: 50%;
+            object-fit: cover; border: 2px solid #007AFF;
         }
 
-        body.dark .skill-icon.html { background: #2d1a0f; }
-        body.dark .skill-icon.css  { background: #0f1a2d; }
-        body.dark .skill-icon.js   { background: #2d2a0f; }
+        body.dark .btn-login-header { border-color: #5aadff; color: #5aadff; }
+        body.dark .btn-login-header:hover { background: #5aadff; color: #111; }
+        body.dark .btn-logout-header { border-color: #444; color: #aaa; }
+        body.dark .btn-logout-header:hover { background: #2a2a2a; }
+
+        /* 로그인 모달 */
+        .modal-overlay {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,0.4); z-index: 200;
+            justify-content: center; align-items: center; padding: 1.5rem;
+        }
+        .modal-overlay.open { display: flex; animation: fadeIn 0.2s ease; }
+
+        .modal {
+            background: white; border-radius: 20px; width: 100%;
+            max-width: 400px; max-height: 85vh; overflow-y: auto;
+            padding: 2rem; box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+            transition: background 0.3s ease;
+        }
+
+        .modal-title { font-size: 1.3rem; font-weight: 800; margin-bottom: 1.4rem; letter-spacing: -0.5px; }
+
+        .form-group { margin-bottom: 1rem; }
+        .form-group label { display: block; font-size: 0.8rem; font-weight: 700; color: #555; margin-bottom: 0.4rem; letter-spacing: 0.5px; }
+        .form-group input { width: 100%; padding: 12px 14px; border: 1.5px solid #e5e5e5; border-radius: 10px; font-size: 0.95rem; font-family: inherit; color: #333; background: #fafafa; transition: border-color 0.2s, background 0.3s ease; }
+        .form-group input:focus { outline: none; border-color: #007AFF; background: white; }
+
+        .modal-actions { display: flex; justify-content: flex-end; gap: 0.6rem; margin-top: 1.4rem; }
+        .btn-cancel { padding: 10px 22px; border: 1.5px solid #e0e0e0; background: white; border-radius: 10px; font-size: 0.9rem; font-weight: 600; color: #666; cursor: pointer; transition: all 0.2s; }
+        .btn-cancel:hover { background: #f5f5f5; }
+        .btn-submit { padding: 10px 22px; background: #007AFF; color: white; border: none; border-radius: 10px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
+        .btn-submit:hover { background: #005ecb; }
+
+        .btn-google {
+            width: 100%; padding: 12px; border: 1.5px solid #e0e0e0;
+            border-radius: 10px; background: white; font-size: 0.95rem;
+            font-weight: 600; cursor: pointer; display: flex; align-items: center;
+            justify-content: center; gap: 10px; transition: all 0.2s; color: #333; margin-bottom: 0.8rem;
+        }
+        .btn-google:hover { background: #f5f5f5; }
+
+        .auth-divider { display: flex; align-items: center; gap: 0.8rem; font-size: 0.8rem; color: #aaa; margin: 1rem 0; }
+        .auth-divider::before, .auth-divider::after { content: ''; flex: 1; height: 1px; background: #e5e5e5; }
+
+        .auth-tabs { display: flex; gap: 0.5rem; margin-bottom: 1.2rem; }
+        .auth-tab { flex: 1; padding: 9px; border: 1.5px solid #e0e0e0; border-radius: 10px; background: white; font-size: 0.88rem; font-weight: 600; cursor: pointer; color: #888; transition: all 0.2s; }
+        .auth-tab.active { background: #007AFF; color: white; border-color: #007AFF; }
+
+        .auth-form-section { display: none; }
+        .auth-form-section.active { display: block; }
+        .auth-error { color: #ff3b30; font-size: 0.82rem; margin-top: 0.4rem; min-height: 1.2em; }
+
+        #toast { position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%) translateY(20px); background: #333; color: white; padding: 10px 22px; border-radius: 20px; font-size: 0.88rem; font-weight: 600; opacity: 0; transition: opacity 0.3s, transform 0.3s; z-index: 9999; pointer-events: none; }
+        #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+        body.dark .modal { background: #1e1e1e; color: #e5e5e7; }
+        body.dark .modal-title { color: #e5e5e7; }
+        body.dark .form-group label { color: #bbb; }
+        body.dark .form-group input { background: #2a2a2a; border-color: #3a3a3a; color: #e5e5e7; }
+        body.dark .form-group input:focus { background: #333; border-color: #007AFF; }
+        body.dark .btn-cancel { background: #2a2a2a; border-color: #3a3a3a; color: #aaa; }
+        body.dark .btn-cancel:hover { background: #333; }
+        body.dark .btn-google { background: #2a2a2a; border-color: #3a3a3a; color: #e5e5e7; }
+        body.dark .btn-google:hover { background: #333; }
+        body.dark .auth-divider { color: #555; }
+        body.dark .auth-divider::before, body.dark .auth-divider::after { background: #3a3a3a; }
+        body.dark .auth-tab { background: #2a2a2a; border-color: #3a3a3a; color: #888; }
+        body.dark .auth-tab.active { background: #007AFF; color: white; border-color: #007AFF; }
+
+        /* 게임 태그 다크모드 */
+        body.dark .game-tag {
+            background: #1a1a1a;
+            border-color: #5aadff;
+            color: #5aadff;
+        }
+        body.dark .game-tag .game-logo:not(.no-filter) {
+            filter: brightness(0) invert(1) sepia(1) saturate(2) hue-rotate(180deg);
+        }
 
         /* 헤더 */
         header {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255,255,255,0.9);
             backdrop-filter: blur(10px);
             position: fixed;
             width: 100%;
@@ -106,12 +179,8 @@
             transition: all 0.2s ease;
         }
 
-        .nav-board:hover {
-            background: #005ecb;
-            transform: translateY(-2px);
-        }
+        .nav-board:hover { background: #005ecb; transform: translateY(-2px); }
 
-        /* 다크모드 토글 버튼 */
         .dark-toggle {
             background: none;
             border: 1.5px solid #ddd;
@@ -123,27 +192,9 @@
             line-height: 1;
         }
 
-        .dark-toggle:hover {
-            border-color: #007AFF;
-            transform: translateY(-2px);
-        }
+        .dark-toggle:hover { border-color: #007AFF; transform: translateY(-2px); }
 
-        body.dark .dark-toggle {
-            border-color: #444;
-            background: #1c1c1e;
-        }
-
-        main {
-            padding-top: 80px;
-        }
-
-        .page-title {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            padding: 5rem 2rem 4rem;
-            text-align: center;
-            animation: fadeIn 0.8s ease-out;
-            transition: background 0.3s ease;
-        }
+        main { padding-top: 80px; }
 
         .badge {
             background: #007AFF;
@@ -156,127 +207,171 @@
             margin-bottom: 1rem;
         }
 
-        .page-title h1 {
-            font-size: 2.8rem;
-            font-weight: 800;
-            letter-spacing: -1px;
-            line-height: 1.2;
-        }
-
-        .page-title h1 strong {
-            color: #007AFF;
-        }
-
-        .page-title p {
-            margin-top: 0.8rem;
-            font-size: 1.1rem;
-            color: #666;
-            transition: color 0.3s ease;
-        }
-
-        section {
+        /* TMI 큰 카드 */
+        .tmi-container {
             max-width: 800px;
             margin: 0 auto;
-            padding: 4rem 2rem;
+            padding: 2rem 2rem;
             animation: fadeIn 0.9s ease-out;
         }
 
-        .section-label {
+        .tmi-card {
+            background: white;
+            border-radius: 24px;
+            padding: 2.4rem 2.8rem;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.08);
+            transition: background 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .tmi-card-title-main {
             font-size: 0.75rem;
             font-weight: 700;
             color: #007AFF;
             letter-spacing: 2px;
             text-transform: uppercase;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.4rem;
         }
 
-        .section-title {
-            font-size: 1.8rem;
+        .tmi-card-heading {
+            font-size: 1.6rem;
             font-weight: 800;
-            margin-bottom: 2rem;
             letter-spacing: -0.5px;
+            margin-bottom: 2rem;
+            padding-bottom: 1.4rem;
+            border-bottom: 1px solid #f0f0f0;
+            transition: color 0.3s ease, border-color 0.3s ease;
         }
 
-        .divider {
-            border: none;
-            border-top: 1px solid #e5e5e5;
-            max-width: 800px;
-            margin: 0 auto;
+        .tmi-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.2rem;
+            padding: 1.2rem 0;
+            border-bottom: 1px solid #f5f5f5;
             transition: border-color 0.3s ease;
         }
 
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 1.2rem;
-        }
+        .tmi-row:last-child { border-bottom: none; }
 
-        .skill-card {
-            background: white;
-            border-radius: 16px;
-            padding: 1.5rem;
-            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
-            transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .skill-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-        }
-
-        .skill-icon {
+        .tmi-emoji {
+            font-size: 1.6rem;
             width: 48px;
             height: 48px;
-            border-radius: 12px;
+            background: #f0f6ff;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.5rem;
             flex-shrink: 0;
             transition: background 0.3s ease;
         }
 
-        .skill-icon.html { background: #fff3ee; }
-        .skill-icon.css  { background: #eef3ff; }
-        .skill-icon.js   { background: #fffbe6; }
+        .tmi-row-content { flex: 1; }
 
-        .skill-info h3 {
-            font-size: 1rem;
+        .tmi-row-label {
+            font-size: 0.75rem;
             font-weight: 700;
+            color: #aaa;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
             transition: color 0.3s ease;
         }
 
-        .skill-info p {
-            font-size: 0.8rem;
-            color: #888;
-            margin-top: 2px;
-            transition: color 0.3s ease;
+        .tmi-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
         }
 
-        .level-bar-wrap {
-            margin-top: 6px;
-            background: #f0f0f0;
-            border-radius: 10px;
-            height: 5px;
-            width: 100%;
-            overflow: hidden;
-            transition: background 0.3s ease;
+        .tmi-item {
+            background: #f0f6ff;
+            color: #007AFF;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            transition: background 0.3s ease, color 0.3s ease;
         }
 
-        .level-bar {
-            height: 100%;
-            border-radius: 10px;
-            background: #007AFF;
+        .tmi-item-clickable {
+            cursor: pointer;
+            user-select: none;
+            transition: background 0.2s ease, transform 0.15s ease;
         }
 
-        .back-wrap {
-            text-align: center;
-            padding: 2rem 0 5rem;
+        .tmi-item-clickable:hover {
+            transform: translateY(-2px);
+            background: #d6eaff;
         }
 
+        body.dark .tmi-item-clickable:hover { background: #1e3a5f; }
+
+        .game-list {
+            display: none;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.7rem;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .game-list.open { display: flex; }
+
+        /* 게임 태그 (로고 포함) */
+        .game-tag {
+            background: #fff;
+            border: 1.5px solid #007AFF;
+            color: #007AFF;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            transition: background 0.2s ease, transform 0.15s ease, box-shadow 0.15s ease;
+        }
+
+        .game-tag:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,122,255,0.18);
+            background: #f0f6ff;
+        }
+
+        body.dark .game-tag:hover {
+            background: #1e3a5f;
+        }
+
+        .game-logo {
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
+            display: block;
+            flex-shrink: 0;
+            border-radius: 3px;
+            mix-blend-mode: multiply;
+        }
+
+        .racing-logo {
+            width: 20px;
+            height: 20px;
+            object-fit: contain;
+            display: block;
+            flex-shrink: 0;
+            border-radius: 3px;
+            mix-blend-mode: multiply;
+        }
+
+        body.dark .game-logo:not(.racing-logo) {
+            mix-blend-mode: screen;
+        }
+
+        body.dark .racing-logo {
+            mix-blend-mode: normal;
+        }
+
+        /* 버튼 영역 */
         .btn {
             display: inline-block;
             padding: 14px 36px;
@@ -297,7 +392,7 @@
 
         footer {
             text-align: center;
-            padding: 2rem;
+            padding: 1.2rem;
             font-size: 0.85rem;
             color: #aaa;
             border-top: 1px solid #eee;
@@ -316,64 +411,77 @@
         <div class="container">
             <a href="./index.html"><h1 class="logo">WOOYOUNG</h1></a>
             <button class="dark-toggle" id="darkToggle" onclick="toggleDark()" title="다크모드 전환">🌙</button>
+            <div id="headerAuthArea"></div>
             <a href="./board.html" class="nav-board">게시판</a>
         </div>
     </header>
 
     <main>
 
-        <div class="page-title">
-            <span class="badge">About Me</span>
-            <h1>저는 이런 사람이에요,<br><strong>노우영</strong>입니다.</h1>
-            <p>웹 개발을 공부하며 성장 중인 개발자입니다.</p>
-        </div>
+        <div class="tmi-container" style="display: flex; flex-direction: column; padding-top: 120px; padding-bottom: 2rem;">
+            <div class="tmi-card">
+                <div class="tmi-card-title-main">About Me</div>
+                <div class="tmi-card-heading">이런 사람이에요 👋</div>
 
-        <section>
-            <p class="section-label">Tech Stack</p>
-            <h2 class="section-title">기술 스택</h2>
-
-            <div class="skills-grid">
-
-                <div class="skill-card">
-                    <div class="skill-icon html">🟧</div>
-                    <div class="skill-info">
-                        <h3>HTML</h3>
-                        <p>마크업 구조 설계</p>
-                        <div class="level-bar-wrap">
-                            <div class="level-bar" style="width: 30%;"></div>
+                <!-- 취미 -->
+                <div class="tmi-row">
+                    <div class="tmi-emoji">🎮</div>
+                    <div class="tmi-row-content">
+                        <div class="tmi-row-label">Hobby · 취미</div>
+                        <div class="tmi-items">
+                            <span class="tmi-item tmi-item-clickable" onclick="toggleGames()">🎮 게임 <span id="gameArrow">▾</span></span>
+                            <span class="tmi-item tmi-item-clickable" onclick="toggleRaces()">🏎️ 레이스 시청 <span id="raceArrow">▾</span></span>
                         </div>
+                        <!-- 레이스 목록 -->
+                        <div id="raceList" class="game-list">
+                            <a href="https://www.formula1.com/" target="_blank" class="game-tag">
+                                <img src="./이미지폴더/F1 logo.png" alt="Formula 1" class="racing-logo">
+                                F1
+                            </a>
+                            <a href="https://www.fiaformula2.com/" target="_blank" class="game-tag"> 
+                                <img src="./이미지폴더/F2 logo.png" alt="Formula 2" class="racing-logo">
+                                F2
+                            </a>
+                            <a href="https://www.24hseries.com/" target="_blank" class="game-tag">
+                                <img src="./이미지폴더/le_mans_transparent.png" alt="24h Series" class="racing-logo">
+                                 24h
+                            </a>
+                        </div>
+                        <!-- 게임 목록 (로고 적용) -->
+                        <div id="gameList" class="game-list">
+                            <a href="https://playvalorant.com/ko-kr/" target="_blank" class="game-tag valorant">
+                                <img src="./이미지폴더/valorant logo.png" alt="발로란트" class="game-logo">
+                                발로란트
+                            </a>
+                            <a href="https://overwatch.blizzard.com/ko-kr/" target="_blank" class="game-tag overwatch">
+                                <img src="./이미지폴더/overwatch 512x512.png" alt="오버워치" class="game-logo">
+                                오버워치
+                            </a>
+                            <a href="https://www.counter-strike.net/cs2?l=koreana" target="_blank" class="game-tag cs2">
+                                <img src="./이미지폴더/cs2.png" alt="카운터스트라이크2" class="game-logo no-filter">
+                                카운터스트라이크2
+                            </a>
+                        </div>
+                        
                     </div>
                 </div>
 
-                <div class="skill-card">
-                    <div class="skill-icon css">🟦</div>
-                    <div class="skill-info">
-                        <h3>CSS</h3>
-                        <p>스타일링 & 레이아웃</p>
-                        <div class="level-bar-wrap">
-                            <div class="level-bar" style="width: 30%;"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="skill-card">
-                    <div class="skill-icon js">🟨</div>
-                    <div class="skill-info">
-                        <h3>JavaScript</h3>
-                        <p>동적 기능 구현</p>
-                        <div class="level-bar-wrap">
-                            <div class="level-bar" style="width: 5%;"></div>
+                <!-- 좋아하는 음식 -->
+                <div class="tmi-row">
+                    <div class="tmi-emoji">🍽️</div>
+                    <div class="tmi-row-content">
+                        <div class="tmi-row-label">Favorite Food · 좋아하는 음식</div>
+                        <div class="tmi-items">
+                            <span class="tmi-item">🍛 카레</span>
+                            <span class="tmi-item">🍲 샤브샤브</span>
                         </div>
                     </div>
                 </div>
 
             </div>
-        </section>
-
-        <hr class="divider">
-
-        <div class="back-wrap">
-            <a href="./index.html" class="btn">← 처음으로 돌아가기</a>
+            <div style="margin-top: 1.4rem;">
+                <a href="./index.html" class="btn">← 처음으로 돌아가기</a>
+            </div>
         </div>
 
     </main>
@@ -382,7 +490,72 @@
         <p>© 2026 Noh Wooyoung. Designed with Passion.</p>
     </footer>
 
+    <!-- 로그인 모달 -->
+    <div class="modal-overlay" id="authModal">
+        <div class="modal">
+            <div class="modal-title">로그인 / 회원가입</div>
+            <button class="btn-google" onclick="signInWithGoogle()">
+                <svg width="18" height="18" viewBox="0 0 18 18"><path fill="#4285F4" d="M16.51 8H8.98v3h4.3c-.18 1-.74 1.48-1.6 2.04v2.01h2.6a7.8 7.8 0 0 0 2.38-5.88c0-.57-.05-.66-.15-1.17z"/><path fill="#34A853" d="M8.98 17c2.16 0 3.97-.72 5.3-1.94l-2.6-2.04a4.8 4.8 0 0 1-7.18-2.54H1.83v2.07A8 8 0 0 0 8.98 17z"/><path fill="#FBBC05" d="M4.5 10.48A4.8 4.8 0 0 1 4.5 7.52V5.45H1.83a8 8 0 0 0 0 7.1l2.67-2.07z"/><path fill="#EA4335" d="M8.98 3.58c1.32 0 2.5.45 3.44 1.35l2.54-2.54A8 8 0 0 0 1.83 5.45L4.5 7.52A4.77 4.77 0 0 1 8.98 3.58z"/></svg>
+                Google로 계속하기
+            </button>
+            <div class="auth-divider">또는 이메일로</div>
+            <div class="auth-tabs">
+                <button class="auth-tab active" id="tabLogin" onclick="switchAuthTab('login')">로그인</button>
+                <button class="auth-tab" id="tabSignup" onclick="switchAuthTab('signup')">회원가입</button>
+            </div>
+            <div class="auth-form-section active" id="formLogin">
+                <div class="form-group"><label>이메일</label><input type="email" id="loginEmail" placeholder="email@example.com"></div>
+                <div class="form-group"><label>비밀번호</label><input type="password" id="loginPassword" placeholder="비밀번호 입력"></div>
+                <div class="auth-error" id="loginError"></div>
+                <div class="modal-actions">
+                    <button class="btn-cancel" onclick="closeAuthModal()">취소</button>
+                    <button class="btn-submit" onclick="signInWithEmail()">로그인</button>
+                </div>
+            </div>
+            <div class="auth-form-section" id="formSignup">
+                <div class="form-group"><label>이름 (닉네임)</label><input type="text" id="signupName" placeholder="게시판에 표시될 이름"></div>
+                <div class="form-group"><label>이메일</label><input type="email" id="signupEmail" placeholder="email@example.com"></div>
+                <div class="form-group"><label>비밀번호 (6자 이상)</label><input type="password" id="signupPassword" placeholder="비밀번호 입력"></div>
+                <div class="auth-error" id="signupError"></div>
+                <div class="modal-actions">
+                    <button class="btn-cancel" onclick="closeAuthModal()">취소</button>
+                    <button class="btn-submit" onclick="signUpWithEmail()">회원가입</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast"></div>
+
     <script>
+        function toggleRaces() {
+            const list = document.getElementById('raceList');
+            const arrow = document.getElementById('raceArrow');
+            const gameList = document.getElementById('gameList');
+            const gameArrow = document.getElementById('gameArrow');
+
+            // 게임 목록 닫기
+            gameList.classList.remove('open');
+            gameArrow.textContent = '▾';
+
+            list.classList.toggle('open');
+            arrow.textContent = list.classList.contains('open') ? '▴' : '▾';
+        }
+
+        function toggleGames() {
+            const list = document.getElementById('gameList');
+            const arrow = document.getElementById('gameArrow');
+            const raceList = document.getElementById('raceList');
+            const raceArrow = document.getElementById('raceArrow');
+
+            // 레이스 목록 닫기
+            raceList.classList.remove('open');
+            raceArrow.textContent = '▾';
+
+            list.classList.toggle('open');
+            arrow.textContent = list.classList.contains('open') ? '▴' : '▾';
+        }
+
         const DARK_KEY = 'wooyoung_dark_mode';
 
         function applyDark(dark) {
@@ -397,6 +570,122 @@
         }
 
         applyDark(localStorage.getItem(DARK_KEY) === 'true');
+    </script>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-app.js";
+        import {
+            getAuth, onAuthStateChanged, signOut,
+            GoogleAuthProvider, signInWithPopup,
+            createUserWithEmailAndPassword, signInWithEmailAndPassword,
+            updateProfile
+        } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDCr7IbF5T6qWEa0ne-E93oxXtluwvGkOY",
+            authDomain: "wooyoung-board.firebaseapp.com",
+            projectId: "wooyoung-board",
+            storageBucket: "wooyoung-board.firebasestorage.app",
+            messagingSenderId: "643705634708",
+            appId: "1:643705634700:web:8cd0102769aee7b47d20a9"
+        };
+
+        const app  = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        let _tt = null;
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg; t.classList.add('show');
+            clearTimeout(_tt);
+            _tt = setTimeout(() => t.classList.remove('show'), 2500);
+        }
+
+        function esc(s) {
+            return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+        }
+
+        function userName(user) {
+            return user.displayName || user.email.split('@')[0];
+        }
+
+        function renderHeaderAuth(user) {
+            const area = document.getElementById('headerAuthArea');
+            if (user) {
+                const avatar = user.photoURL
+                    ? `<img src="${esc(user.photoURL)}" class="header-user-avatar">`
+                    : `<span style="font-size:1.2rem">👤</span>`;
+                area.innerHTML = `<div style="display:flex;align-items:center;gap:0.5rem;">
+                    ${avatar}
+                    <span style="font-size:0.85rem;font-weight:600;max-width:90px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${esc(userName(user))}</span>
+                    <button class="btn-logout-header" onclick="doSignOut()">로그아웃</button>
+                </div>`;
+            } else {
+                area.innerHTML = `<button class="btn-login-header" onclick="openAuthModal()">로그인</button>`;
+            }
+        }
+
+        onAuthStateChanged(auth, user => renderHeaderAuth(user));
+
+        window.doSignOut = async () => { await signOut(auth); showToast('👋 로그아웃됐어요.'); };
+
+        window.openAuthModal = () => {
+            document.getElementById('authModal').classList.add('open');
+            switchAuthTab('login');
+            document.getElementById('loginError').textContent = '';
+            document.getElementById('signupError').textContent = '';
+        };
+        window.closeAuthModal = () => document.getElementById('authModal').classList.remove('open');
+
+        window.switchAuthTab = (tab) => {
+            ['login','signup'].forEach(t => {
+                document.getElementById('tab' + t.charAt(0).toUpperCase() + t.slice(1)).classList.toggle('active', t === tab);
+                document.getElementById('form' + t.charAt(0).toUpperCase() + t.slice(1)).classList.toggle('active', t === tab);
+            });
+        };
+
+        function authErr(code) {
+            const m = { 'auth/user-not-found':'등록되지 않은 이메일이에요.', 'auth/wrong-password':'비밀번호가 틀렸어요.', 'auth/invalid-email':'올바른 이메일 형식이 아니에요.', 'auth/email-already-in-use':'이미 사용 중인 이메일이에요.', 'auth/weak-password':'비밀번호는 6자 이상이어야 해요.', 'auth/popup-closed-by-user':'로그인 창이 닫혔어요.', 'auth/invalid-credential':'이메일 또는 비밀번호가 올바르지 않아요.' };
+            return m[code] || '오류가 발생했어요. 다시 시도해주세요.';
+        }
+
+        window.signInWithGoogle = async () => {
+            try {
+                await signInWithPopup(auth, new GoogleAuthProvider());
+                closeAuthModal(); showToast('🎉 로그인됐어요!');
+            } catch(e) { document.getElementById('loginError').textContent = authErr(e.code); }
+        };
+
+        window.signInWithEmail = async () => {
+            const email = document.getElementById('loginEmail').value.trim();
+            const pw    = document.getElementById('loginPassword').value;
+            if (!email || !pw) { document.getElementById('loginError').textContent = '이메일과 비밀번호를 입력해주세요.'; return; }
+            try {
+                await signInWithEmailAndPassword(auth, email, pw);
+                closeAuthModal(); showToast('🎉 로그인됐어요!');
+            } catch(e) { document.getElementById('loginError').textContent = authErr(e.code); }
+        };
+
+        window.signUpWithEmail = async () => {
+            const name  = document.getElementById('signupName').value.trim();
+            const email = document.getElementById('signupEmail').value.trim();
+            const pw    = document.getElementById('signupPassword').value;
+            const errEl = document.getElementById('signupError');
+            if (!name)  { errEl.textContent = '이름을 입력해주세요.'; return; }
+            if (!email) { errEl.textContent = '이메일을 입력해주세요.'; return; }
+            if (!pw)    { errEl.textContent = '비밀번호를 입력해주세요.'; return; }
+            try {
+                const cred = await createUserWithEmailAndPassword(auth, email, pw);
+                await updateProfile(cred.user, { displayName: name });
+                closeAuthModal(); showToast('🎉 회원가입 완료!');
+            } catch(e) { errEl.textContent = authErr(e.code); }
+        };
+
+        let _md = null;
+        document.addEventListener('mousedown', e => _md = e.target);
+        document.getElementById('authModal').addEventListener('click', function(e) {
+            if (e.target === this && _md === this) closeAuthModal();
+        });
     </script>
 
 </body>
